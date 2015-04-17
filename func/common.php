@@ -24,7 +24,7 @@ if (!function_exists('alert')) {
      */
     function alert($message)
     {
-        echo "<script>alert({$message})</script>";
+        echo "<script>alert('" . $message . "')</script>";
     }
 }
 
