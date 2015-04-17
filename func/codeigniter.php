@@ -1,7 +1,7 @@
 <?php
 /**
- * ci函数库
- * 亓雪峰
+ * codeigniter 函数库
+ * @author 亓雪峰
  */
 
 if (function_exists('ci')) {
@@ -18,7 +18,6 @@ if (function_exists('ci')) {
 if (!function_exists('post')) {
     /**
      * 获取post的数据
-     * 亓雪峰
      */
     function post($index = null, $xss_clean = false, $default = null)
     {
@@ -34,7 +33,6 @@ if (!function_exists('get')) {
 
     /**
      * 获取get的数据
-     * 亓雪峰
      */
     function get($index = null, $xss_clean = false, $default = null)
     {

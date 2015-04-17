@@ -1,7 +1,7 @@
 <?php
 /**
- * 函数库文件
- * 亓雪峰
+ * 通用函数库
+ * @author 亓雪峰
  */
 
 if (!function_exists('p')) {
@@ -15,14 +15,14 @@ if (!function_exists('p')) {
         echo '</pre>';
     }
 }
+
 if (!function_exists('array_column')) {
     /**
-     * 返回数组中的一列
+     * 返回数组中的一列, php5.5+内置此函数
      * @param  array  $array      输入数组
      * @param  string $column_key 获取的列
      * @param  string $index_key  指定键值
      * @return array              单列数组
-     * @author 亓雪峰
      */
     function array_column(array $array, $column_key, $index_key = null)
     {
@@ -80,21 +80,23 @@ if (!function_exists('ip')) {
     }
 }
 
-/**
- * 二维数组按照指定字段(例如时间)排序
- *
- * 实例:
- * $array[0] = array('key_a' => 'z', 'key_b' => 'c');
- * $array[1] = array('key_a' => 'x', 'key_b' => 'b');
- * $array[2] = array('key_a' => 'y', 'key_b' => 'a');
- *
- * usort($array, sorter('key_b'));
- */
-function sorter($key)
-{
-    return function ($a, $b) use ($key) {
-        return strnatcmp($a[$key], $b[$key]);
-    };
+if (!function_exists('sorter')) {
+    /**
+     * 二维数组按照指定字段排序, 需要配合usort函数使用
+     *
+     * 实例:
+     * $array[0] = array('key_a' => 'z', 'key_b' => 'c');
+     * $array[1] = array('key_a' => 'x', 'key_b' => 'b');
+     * $array[2] = array('key_a' => 'y', 'key_b' => 'a');
+     *
+     * usort($array, sorter('key_b'));
+     */
+    function sorter($key)
+    {
+        return function ($a, $b) use ($key) {
+            return strnatcmp($a[$key], $b[$key]);
+        };
+    }
 }
 
 /*-------------------------------- 文件系统 --------------------------------*/
@@ -102,7 +104,7 @@ function sorter($key)
 if (!function_exists('mkdirs')) {
     /**
      * 递归创建目录
-     * 亓雪峰
+     * @param 目录
      */
     function mkdirs($dir)
     {
@@ -164,7 +166,7 @@ function remoteFileExists($url)
 }
 
 /**
- * 跳转地址
+ * 获取跳转地址
  * redirectUrl('http://www.baidu.com/link?url=1rr24-9xHCvERVJUiMauKDjhVVhgHNeatFAPAxyn9Fkpo2gUVmDfWHRJMUhkF4l3');
  */
 function redirectUrl($url)
@@ -188,7 +190,7 @@ function redirectUrl($url)
     } while (strpos($header, "Location:"));
 }
 
-/*-------------------------------- 字符串 --------------------------------*/
+/*-------------------------------- 字符串函数 --------------------------------*/
 if (!function_exists('matchEmail')) {
     /**
      * Validate email address
@@ -218,7 +220,7 @@ if (!function_exists('matchMobile')) {
 
 if (!function_exists('likeString')) {
     /**
-     * 返回 用户SQL语句中模糊搜索的字符串
+     * @return $string 用户SQL语句中模糊搜索的字符串
      * 致青春 => %致%青%春%
      */
     function likeString($keyword)
@@ -238,7 +240,7 @@ if (!function_exists('matchPassword')) {
      * 规则:
      * 1.密码长度至少6位
      *
-     * TODO
+     * 后期可扩展为
      * 1.只能由字母, 数字和特殊符号组成
      * 2.字母, 数字和特殊符号至少含有两种
      */
@@ -248,12 +250,12 @@ if (!function_exists('matchPassword')) {
     }
 }
 
-// HTTP 函数
+/*-------------------------------- http 函数 --------------------------------*/
 
 if (!function_exists('context')) {
     /**
      * 模拟头部信息,生成context
-     * TODO 后期扩展为随机切换代理
+     * TODO 后期可扩展为随机切换代理
      */
     function context()
     {
@@ -275,10 +277,9 @@ if (!function_exists('context')) {
 
 /**
  * 获取程序的执行时间
- * @author 亓雪峰
  * @param $start_time 程序开始执行的microtime时间
- *
- * 用法实例:
+ * @return 程序执行时间
+ * 用法举例:
  * $start_time = microtime(true); //获取程序开始执行的时间
  * for ($i = 1; $i <= 10000; $i++) {}//为了实现有一定的时间差,所以用了一个FOR来消耗一些资源.
  * echo getTime($start_time);
